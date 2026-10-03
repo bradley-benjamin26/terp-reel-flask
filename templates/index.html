@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Terp Reel — UMD Digital Collections Image Scroll</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://iiif.lib.umd.edu">
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,700,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<a href="#feed" class="skip-link">Skip to image feed</a>
+
+<header class="topbar">
+  <div class="brand">
+    <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false">
+      <path d="M9 6L26 16L9 26V6Z" fill="currentColor"/>
+      <path d="M4 6V26" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+    </svg>
+    <span class="brand-name">Terp Reel</span>
+  </div>
+  <nav class="topbar-actions" aria-label="Display settings">
+    <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to light mode">
+    <!-- existing icon -->
+    </button>
+
+    <button type="button" class="panel-toggle" id="panelToggle" aria-label="Open collections menu"
+          aria-expanded="false" aria-controls="collectionPanel">
+    <!-- existing grid icon -->
+    </button>
+
+  </nav>
+</header>
+
+<main id="feed" class="feed" tabindex="-1" data-default-set="{{ collections[0].spec }}" aria-label="Image feed. Use Page Down, Page Up, or the Down and Up arrow keys to move between images.">
+</main>
+
+<button
+  type="button"
+  class="back-to-top"
+  id="backToTop"
+  aria-label="Return to the first image"
+  title="Return to the first image"
+>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+    <path d="M12 19V5"></path>
+    <path d="m5 12 7-7 7 7"></path>
+  </svg>
+</button>
+
+<div id="slideAnnouncer" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+
+<nav class="collection-panel" id="collectionPanel" aria-label="Browse by collection" aria-hidden="true">
+  <div class="collection-panel-header">
+    <h2 id="collectionPanelTitle">Collections</h2>
+    <button type="button" class="panel-close" id="panelClose" aria-label="Close collections menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <ul class="collection-tiles" id="collectionTiles" role="list">
+    {% for c in collections %}
+    <li role="listitem">
+      <button type="button" class="tile{% if loop.first %} active{% endif %}" data-set="{{ c.spec }}" aria-pressed="{{ 'true' if loop.first else 'false' }}">
+        <span class="tile-name">{{ c.name }}</span>
+      </button>
+    </li>
+    {% endfor %}
+  </ul>
+</nav>
+<div class="panel-scrim" id="panelScrim" hidden></div>
+
+<script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+<script src="{{ url_for('static', filename='js/feed.js') }}"></script>
+</body>
+</html>
